@@ -2,66 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Service Invoice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invoice Generator</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="invoice-container" id="invoice">
-    <div class="invoice-header">
-      <div class="header-left">
-        <p><strong>Name:</strong> <input type="text" /></p>
-        <p><strong>Village:</strong> <input type="text" /></p>
-        <p><strong>Phone:</strong> <input type="text" /></p>
-      </div>
-      <div class="header-right">
-        <p><strong>Service Date:</strong> <input type="date" /></p>
-        <p><strong>Invoice Date:</strong> <input type="date" /></p>
-      </div>
-    </div>
+<div class="lang-toggle">
+  <label><input type="radio" name="lang" value="en" checked> English</label>
+  <label><input type="radio" name="lang" value="te"> తెలుగు</label>
+</div>
 
-    <div class="table">
-      <div class="table-header">
-        <div>Type</div>
-        <div>Unit</div>
-        <div>Price</div>
-        <div>Amount</div>
-        <div></div>
-      </div>
-      <div class="table-body" id="item-rows">
-        <!-- Row template inserted here -->
-      </div>
-      <button class="btn add-btn" onclick="addRow()">+ Add Row</button>
-    </div>
-
-    <div class="totals">
-      <p><strong>Total:</strong> <span id="total">0.00</span></p>
-      <p><strong>Advance Paid:</strong> <input type="number" id="advance" value="0" oninput="calculateBalance()" /></p>
-      <p><strong>Balance:</strong> <span id="balance">0.00</span></p>
-    </div>
-
-    <div class="signatures">
-      <div>
-        <p>Service Provider Sign:</p>
-        <p>Date: <input type="date" /></p>
-      </div>
-      <div>
-        <p>Customer Sign:</p>
-        <p>Date: <input type="date" /></p>
-      </div>
-    </div>
-
-    <div class="export-buttons">
-      <button class="btn" onclick="exportPDF()">Export as PDF</button>
-      <button class="btn" onclick="exportImage()">Export as Image</button>
-      <button class="btn" onclick="window.print()">Print</button>
-    </div>
+<div class="invoice" id="invoice">
+  <div class="header">
+    <img src="logo.png" alt="Company Logo" class="logo"/>
+    <h1 id="invoice-title">Service Invoice</h1>
+    <p><strong id="invoice-id-label">Invoice #:</strong> <span id="invoice-id"></span></p>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
-  <script src="invoice.js"></script>
+  <div class="client-info">
+    <p><strong id="name-label">Name:</strong> <input type="text" id="client-name"/></p>
+    <p><strong id="village-label">Village:</strong> <input type="text" id="client-village"/></p>
+    <p><strong id="phone-label">Phone:</strong> <input type="text" id="client-phone"/></p>
+    <p><strong id="invoice-date-label">Invoice Date:</strong> <input type="date" id="invoice-date"/></p>
+  </div>
+
+  <div class="item-header">
+    <div id="type-label">Type</div>
+    <div id="unit-label">Unit</div>
+    <div id="price-label">Price</div>
+    <div id="amount-label">Amount</div>
+  </div>
+  <div id="items"></div>
+
+  <button class="btn" onclick="addItem()">+ Add Item</button>
+
+  <div class="summary">
+    <p><strong id="total-label">Total:</strong> ₹<span id="total">0.00</span></p>
+    <p><strong id="advance-label">Advance Paid:</strong> ₹<input type="number" id="advance" value="0" oninput="calculateBalance()"/></p>
+    <p><strong id="balance-label">Balance:</strong> ₹<span id="balance">0.00</span></p>
+  </div>
+
+  <div class="sign-section">
+    <div>
+      <p id="provider-sign-label">Service Provider Sign:</p>
+    </div>
+    <div>
+      <p id="customer-sign-label">Customer Sign:</p>
+    </div>
+  </div>
+</div>
+
+<div class="buttons">
+  <button class="btn" onclick="saveInvoice()">💾 Save Invoice</button>
+  <button class="btn" onclick="loadInvoices()">📂 Load Invoice</button>
+  <button class="btn" onclick="exportPDF()">📄 Export as PDF</button>
+  <button class="btn" onclick="exportImage()">🖼 Export as Image</button>
+</div>
+
+<div id="saved-invoices"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="invoice.js"></script>
 </body>
 </html>
